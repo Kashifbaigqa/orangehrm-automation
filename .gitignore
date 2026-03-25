@@ -40,7 +40,7 @@ hs_err_pid*
 /test-output/
 /emailable-report.html 
 /surefire-reports/ 
-/ExtentReports/ 
+/ExtentReport/ 
 
 # OS-specific files 
 
