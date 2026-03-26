@@ -35,11 +35,12 @@ public class BaseClass {
 	@BeforeMethod
 	public void setup() throws IOException {
 
-		System.out.println("Setting up WebDriver for:" + this.getClass().getSimpleName());
+		System.out.println("Setting up WebDriver for:" + this.getClass().getSimpleName()); // prints for which test
+																							// class its executing
 		launchBrowser();
 		configureBrowser();
 		staticWait(5);
-		
+
 	}
 
 	// Step 2: Initialize the WebDriver based on browser defined in
@@ -84,6 +85,17 @@ public class BaseClass {
 				System.out.println("Failed to quit browser:" + e.getMessage());
 			}
 		}
+	}
+
+	// setting getter and setter methods to access protected objects outside package
+	// Driver getter method
+	public WebDriver getDriver() {
+		return driver;
+	}
+
+	// Driver setter method
+	public void setDriver(WebDriver driver) {
+		this.driver = driver;
 	}
 
 	// adding some static wait so we can actually see title on page before closing
