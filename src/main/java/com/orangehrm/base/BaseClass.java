@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -36,8 +38,9 @@ public class BaseClass {
 		System.out.println("Setting up WebDriver for:" + this.getClass().getSimpleName());
 		launchBrowser();
 		configureBrowser();
+		staticWait(5);
+		
 	}
-	
 
 	// Step 2: Initialize the WebDriver based on browser defined in
 	// config.properties file
@@ -55,7 +58,6 @@ public class BaseClass {
 			throw new IllegalArgumentException("Browser not supported:" + browser);
 		}
 	}
-	
 
 	// Configure browser settings such as implicit wait, maximize the browser and
 	// navigate to the url
@@ -82,5 +84,12 @@ public class BaseClass {
 				System.out.println("Failed to quit browser:" + e.getMessage());
 			}
 		}
+	}
+
+	// adding some static wait so we can actually see title on page before closing
+	public void staticWait(int seconds) {
+
+		// thread.sleep adds wait in miliseconds but parkNanos adds wait in nanos
+		LockSupport.parkNanos(TimeUnit.SECONDS.toNanos(seconds));
 	}
 }
