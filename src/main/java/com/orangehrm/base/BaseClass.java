@@ -92,6 +92,11 @@ public class BaseClass {
 	public WebDriver getDriver() {
 		return driver;
 	}
+	
+	// Getter method for prop
+	public static Properties getProp() {
+		return prop;
+	}
 
 	// Driver setter method
 	public void setDriver(WebDriver driver) {

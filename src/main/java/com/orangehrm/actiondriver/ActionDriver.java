@@ -20,7 +20,8 @@ public class ActionDriver {
 	// class is called
 	public ActionDriver(WebDriver driver) {
 		this.driver = driver;
-		this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		int explicitWait = Integer.parseInt(BaseClass.getProp().getProperty("explicitWait"));
+		this.wait = new WebDriverWait(driver, Duration.ofSeconds(explicitWait));
 	}
 
 	// Method to click an element
