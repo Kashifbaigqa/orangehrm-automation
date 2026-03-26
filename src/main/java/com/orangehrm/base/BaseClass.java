@@ -11,25 +11,37 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
+import org.testng.annotations.BeforeSuite;
 
 public class BaseClass {
 
-	// making these objects protected so we can use withing the pakage and outside
-	// the pakage by creating
-	protected Properties prop;
+	// protected so we can use these object withing the pakage and also outside the
+	// pakage
+	protected static Properties prop; // making prop static so we can run multiple classes at once, not necessary to
+										// make driver static because we are quiting it every time
 	protected WebDriver driver;
 
-	@BeforeMethod
-	public void setup() throws IOException {
-
-		// Step 1:Load the configruation file
+	// Step 1:Load the configruation file it runs only once so applied BeforeSuite
+	@BeforeSuite
+	public void loadConfig() throws IOException {
 		prop = new Properties();
 		FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
 		prop.load(fis);
 
-		// Step 2: Initialize the WebDriver based on browser defined in
-		// config.properties file
+	}
+
+	@BeforeMethod
+	public void setup() throws IOException {
+
+		System.out.println("Setting up WebDriver for:" + this.getClass().getSimpleName());
+		launchBrowser();
+		configureBrowser();
+	}
+	
+
+	// Step 2: Initialize the WebDriver based on browser defined in
+	// config.properties file
+	private void launchBrowser() {
 
 		String browser = prop.getProperty("browser");
 
@@ -42,19 +54,33 @@ public class BaseClass {
 		} else {
 			throw new IllegalArgumentException("Browser not supported:" + browser);
 		}
+	}
+	
 
+	// Configure browser settings such as implicit wait, maximize the browser and
+	// navigate to the url
+
+	private void configureBrowser() {
 		// implicit wait
 		int implicitwait = Integer.parseInt(prop.getProperty("implicitWait"));
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitwait));
 
 		// Step 3:Navigate to URL
-		driver.get(prop.getProperty("url"));
+		try {
+			driver.get(prop.getProperty("url"));
+		} catch (Exception e) {
+			System.out.println("Failed to Navigate to the URL:" + e.getMessage());
+		}
 	}
-	
+
 	@AfterMethod
 	public void tearDown() {
-		if(driver!=null) {
-			driver.quit();
+		if (driver != null) {
+			try {
+				driver.quit();
+			} catch (Exception e) {
+				System.out.println("Failed to quit browser:" + e.getMessage());
+			}
 		}
 	}
 }
