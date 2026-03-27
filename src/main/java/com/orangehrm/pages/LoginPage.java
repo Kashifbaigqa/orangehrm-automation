@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.orangehrm.actiondriver.ActionDriver;
+import com.orangehrm.base.BaseClass;
 
 public class LoginPage {
 	private ActionDriver actionDriver;
@@ -16,12 +17,12 @@ public class LoginPage {
 	private By loginButton = By.xpath("//button[text() = ' Login ']");
 	private By errorMessage = By.xpath("//p[text() = 'Invalid credentials']");
 
-	//Initialize the ActionDriver object by passing WebDriver instance
-	
+	// Initialize the ActionDriver object by passing WebDriver instance
 	public LoginPage(WebDriver driver) {
-		this.actionDriver = new ActionDriver(driver);
-	}
-		
+//		this.actionDriver = new ActionDriver(driver);  
+		this.actionDriver = BaseClass.getActionDriver(); //not creating new instace now just getting from BaseClass
+		}
+
 	
 	//Method to perform login
 	public void login(String userName, String password) {

@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.orangehrm.actiondriver.ActionDriver;
+import com.orangehrm.base.BaseClass;
 
 public class HomePage {
 
@@ -11,8 +12,8 @@ public class HomePage {
 
 	// Initialize the ActionDriver object by passing WebDriver instance
 	public HomePage(WebDriver driver) {
-		this.actionDriver = new ActionDriver(driver);
-
+//		this.actionDriver = new ActionDriver(driver);  
+		this.actionDriver = BaseClass.getActionDriver(); // not creating new instace now just getting from BaseClass
 	}
 
 	// Define locators using By class
@@ -20,7 +21,7 @@ public class HomePage {
 	private By userIDButton = By.className("oxd-userdropdown-name");
 	private By logoutButton = By.xpath("//a[text()='Logout']");
 	private By orangeHRMlogo = By.xpath("//img[@alt = 'client brand banner']");
-	
+
 	// Method to verify if Admin tab is visible
 	public boolean isAdminTabVisible() {
 

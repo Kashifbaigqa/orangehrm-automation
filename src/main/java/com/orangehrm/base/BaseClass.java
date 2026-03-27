@@ -15,13 +15,16 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import com.orangehrm.actiondriver.ActionDriver;
+
 public class BaseClass {
 
 	// protected so we can use these object withing the pakage and also outside the
 	// pakage
 	protected static Properties prop; // making prop static so we can run multiple classes at once, not necessary to
 										// make driver static because we are quiting it every time
-	protected WebDriver driver;
+	protected static WebDriver driver;
+	private static ActionDriver actionDriver;
 
 	// Step 1:Load the configruation file it runs only once so applied BeforeSuite
 	@BeforeSuite
@@ -41,6 +44,11 @@ public class BaseClass {
 		configureBrowser();
 		staticWait(5);
 
+		// Initialize the actionDriver only once
+		if (actionDriver == null) {
+			actionDriver = new ActionDriver(driver);
+			System.out.println("ActionDriver instance is created.");
+		}
 	}
 
 	// Step 2: Initialize the WebDriver based on browser defined in
@@ -85,17 +93,41 @@ public class BaseClass {
 				System.out.println("Failed to quit browser:" + e.getMessage());
 			}
 		}
+		driver = null;
+		actionDriver = null;
 	}
 
 	// setting getter and setter methods to access protected objects outside package
 	// Driver getter method
-	public WebDriver getDriver() {
-		return driver;
-	}
-	
+//	public WebDriver getDriver() {
+//		return driver;
+//	}
+
 	// Getter method for prop
 	public static Properties getProp() {
 		return prop;
+	}
+
+	// Getter Method for WebDriver
+	public static WebDriver getDriver() {
+
+		if (driver == null) {
+			System.out.println("WebDriver is not initialized");
+			throw new IllegalStateException("WebDriver is not initialized");
+		}
+		return driver;
+
+	}
+
+	// Getter Method for ActionDriver
+	public static ActionDriver getActionDriver() {
+
+		if (actionDriver == null) {
+			System.out.println("ActionDriver is not initialized");
+			throw new IllegalStateException("ActionDriver is not initialized");
+		}
+		return actionDriver;
+
 	}
 
 	// Driver setter method

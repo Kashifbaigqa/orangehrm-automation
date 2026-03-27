@@ -26,7 +26,8 @@ public class NewLoginPageTest extends BaseClass {
 		loginPage.login("admin", "admin123");
 		Assert.assertTrue(homePage.isAdminTabVisible(), "Admin tab should be visible after successfull login");
 		homePage.logout();
-		staticWait(2); // we can use this method from BaseClass directly becasue we have extended the base class here
+		staticWait(2); // we can use this method from BaseClass directly becasue we have extended the
+						// base class here
 	}
 
 	@Test
