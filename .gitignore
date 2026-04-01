@@ -25,6 +25,8 @@ local.properties
 # Maven 
 target/
 /target/
+target/classes/META-INF/maven/com.orangehrm/orangehrm-automation/pom.properties
+
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
